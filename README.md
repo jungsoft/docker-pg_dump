@@ -15,6 +15,8 @@ Attach a target postgres container to this container and mount a volume to conta
 | `PGDB` | Optional | postgres | The name of the database |
 | `PGHOST` | Optional | db | The hostname of the database |
 | `PGPORT` | Optional | `5432` | The port for the database |
+| `PGTABLE` | Optional | `*` | Select table to dump |
+| `PGTABLE_SCRIPT` | Optional |  | Script to list tables to dump |
 | `CRON_SCHEDULE` | Required | 0 1 * * * | The cron schedule at which to run the pg_dump |
 | `DELETE_OLDER_THAN` | Optional | `None` | Optionally, delete files older than `DELETE_OLDER_THAN` minutes. Do not include `+` or `-`. |
 
@@ -44,3 +46,14 @@ Run backup once without cron job, use "mybackup" as backup file prefix, shell wi
         -e PREFIX=mybackup \
         --link my-postgres-container:db \   # linked container with running mongo
         annixa/docker-pg_dump dump
+
+
+## Building
+
+### Building for multiple versions and architectures:
+
+- Building for amd64 and arm64, PostgreSQL 13
+> `docker buildx build --platform linux/amd64,linux/arm64 --build-arg VERSION=13 "." --tag jungsoft/jungsoft/docker-pg_dump:13 --push`
+
+- Building for amd64 and arm64, PostgreSQL 14
+> `docker buildx build --platform linux/amd64,linux/arm64 --build-arg VERSION=14 "." --tag jungsoft/jungsoft/docker-pg_dump:14 --push`
